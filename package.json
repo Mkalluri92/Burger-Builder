@@ -34,14 +34,6 @@
   "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
   "main": "index.js",
   "devDependencies": {},
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Mkalluri92/Burger-Builder.git"
-  },
   "author": "Mounika Kalluri",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/Mkalluri92/Burger-Builder/issues"
-  },
-  "homepage": "https://github.com/Mkalluri92/Burger-Builder#readme"
+  "license": "MIT"
 }
