@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { Component } from 'react';
 import Aux from '../../../hoc/Aux';
 import Button from '../../UI/Button/Button';
 
-const OrderSummary = (props) => {
-    const ingredientSummary = [];
-    for (let key in props.ingredients) {
+class OrderSummary extends Component {
+    render () {
+        const ingredientSummary = [];
+    for (let key in this.props.ingredients) {
         ingredientSummary.push(<li key={key}>
-            <span style={{textTransform: 'capitalize'}}> {key} </span>: {props.ingredients[key]}
+            <span style={{textTransform: 'capitalize'}}> {key} </span>: {this.props.ingredients[key]}
             </li>)
     }
 
@@ -17,12 +18,14 @@ const OrderSummary = (props) => {
             <ul>
                 {ingredientSummary}
             </ul>
-            <p><strong>Total Price: {props.price.toFixed(2)}</strong></p>
+            <p><strong>Total Price: {this.props.price.toFixed(2)}</strong></p>
             <p>Continue to Checkout?</p>
-            <Button btnType="Danger" clicked={props.purchaseCancled}>CANCEL</Button>
-            <Button btnType="Success" clicked={props.purchaseCotinued}>CONTINUE</Button>
+            <Button btnType="Danger" clicked={this.props.purchaseCancled}>CANCEL</Button>
+            <Button btnType="Success" clicked={this.props.purchaseCotinued}>CONTINUE</Button>
         </Aux>
     )
+    }
+    
 };
 
 export default OrderSummary;
