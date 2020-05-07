@@ -23,15 +23,17 @@ class Layout extends Component {
     }
 
     render () {
-        return <Aux>
-        <Toolbar toggleClicked={this.menuClicked}/>
-        <SideDrawer 
-            open={this.state.showSideDrawer}
-            closed={this.sideDrawerCloseHandler}/>
-        <div className = {classes.content}>
-            {this.props.children}
-        </div>
-    </Aux>
+        return (
+            <Aux>
+                <Toolbar toggleClicked={this.menuClicked}/>
+                <SideDrawer 
+                    open={this.state.showSideDrawer}
+                    closed={this.sideDrawerCloseHandler}/>
+                <div className = {classes.content}>
+                    {this.props.children}
+                </div>
+            </Aux>
+        )
     }
     
 }

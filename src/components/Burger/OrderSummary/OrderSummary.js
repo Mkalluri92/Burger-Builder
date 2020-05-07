@@ -4,6 +4,7 @@ import Button from '../../UI/Button/Button';
 
 class OrderSummary extends Component {
     render () {
+        
         const ingredientSummary = [];
     for (let key in this.props.ingredients) {
         ingredientSummary.push(<li key={key}>
