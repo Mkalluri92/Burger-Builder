@@ -4,7 +4,7 @@ import Button from '../../UI/Button/Button';
 
 class OrderSummary extends Component {
     render () {
-        
+
         const ingredientSummary = [];
     for (let key in this.props.ingredients) {
         ingredientSummary.push(<li key={key}>
@@ -19,7 +19,7 @@ class OrderSummary extends Component {
             <ul>
                 {ingredientSummary}
             </ul>
-            <p><strong>Total Price: {this.props.price.toFixed(2)}</strong></p>
+            <p><strong>Total Price: {this.props.price}</strong></p>
             <p>Continue to Checkout?</p>
             <Button btnType="Danger" clicked={this.props.purchaseCancled}>CANCEL</Button>
             <Button btnType="Success" clicked={this.props.purchaseCotinued}>CONTINUE</Button>

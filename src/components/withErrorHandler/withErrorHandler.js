@@ -5,11 +5,15 @@ import Aux from '../../hoc/Aux';
 
 const withErrorHandler = (WrappedComponent, axios) => {
     return class extends Component {
-        constructor(props){
-            super(props);
-            this.state = {error: null};
-            this.reqInterceptor = this.reqInterceptor.bind(this);
-            this.resInterceptor = this.resInterceptor.bind(this)
+
+        state = {
+            error: null
+        };
+
+        //ask the previous one
+        componentWillMount () {
+            this.reqInterceptor();
+            this.resInterceptor();
         }
 
         reqInterceptor = () => {
@@ -20,10 +24,13 @@ const withErrorHandler = (WrappedComponent, axios) => {
         }
 
         resInterceptor = () => {
-            axios.interceptors.response.use(res => res,error => {
-                this.setState({ error: error })
-                return error;
-            });
+            axios.interceptors.response.use(res => res,
+                error => {
+                    console.log(error);
+                    this.setState({error: error})
+                    return error;
+                }
+            );
         }
 
         componentWillUnmount() {
@@ -33,7 +40,7 @@ const withErrorHandler = (WrappedComponent, axios) => {
 
         errorConfirmedHandler = () => {
             this.setState({error:null})
-        }
+        };
 
         render () {
             return (
