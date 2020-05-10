@@ -17,7 +17,11 @@
                         type: 'text',
                         placeholder: 'Your Name'
                     },
-                    value: ''
+                    value: '',
+                    validation: {
+                        required: true
+                    },
+                    valid: false
                 },
                 street: {
                     elementType: 'input',
@@ -25,7 +29,11 @@
                         type: 'text',
                         placeholder: 'Street'
                     },
-                    value: ''
+                    value: '',
+                    validation: {
+                        required: true
+                    },
+                    valid: false
                 },
                 zipCode: {
                     elementType: 'input',
@@ -33,7 +41,14 @@
                         type: 'text',
                         placeholder: 'Zip Code'
                     },
-                    value: ''
+                    value: '',
+                    validation: {
+                        required: true
+                    },
+                    valid: false,
+                    minLengh: 5,
+                    maxLength: 5
+
                 },
                 country: {
                     elementType: 'input',
@@ -41,7 +56,11 @@
                         type: 'text',
                         placeholder: 'Country'
                     },
-                    value: ''
+                    value: '',
+                    validation: {
+                        required: true
+                    },
+                    valid: false
                 },
                 email: {
                     elementType: 'input',
@@ -49,7 +68,11 @@
                         type: 'email',
                         placeholder: 'Your Email'
                     },
-                    value: ''
+                    value: '',
+                    validation: {
+                        required: true
+                    },
+                    valid: false
                 },
                 deliveryMethod: {
                     elementType: 'select',
@@ -69,16 +92,35 @@
             this._isMounted = true;
         }
 
+        checkValidity(value, rules) {
+            let _isValid= true;
+
+            if(rules.required) {
+                isValid = value.trim() !== '' && _isValid;
+            }
+
+            if(rules.minLength) {
+                isValid = value.length >= rules.minLength && _isValid;
+            }
+
+            if(rules.maxLength) {
+                isValid = value.length <= rules.minLength && _isValid;
+            }
+
+            return isValid
+        }
+
         orderHandler = (event) => {
-            
             event.preventDefault();
-            this.setState({
-                loading: true
-            })
-            //alert('You Continue');
+            this.setState({loading: true})
+            const formData = {};
+            for (let formElementIndentifier in this.state.orderForm) {
+                formData[formElementIndentifier] = this.state.orderForm[formElementIndentifier].value
+            }
             const order = {
                 ingredients: this.props.ingredients,
-                price: this.props.price
+                price: this.props.price,
+                orderData: formData
             }
                 
             axios.post('/orders.json', order)
@@ -97,6 +139,22 @@
             })
         }
 
+        inputChangeHandler = (event, inputIndentifier) => {
+            const updatedOrderForm = {
+                ...this.state.orderForm
+            }
+            const updatedFormElemnet = {
+                ...updatedOrderForm[inputIndentifier]
+            }
+            updatedFormElemnet.value = event.target.value
+            updatedFormElemnet.valid = this.checkValidity(updatedFormElemnet.value, updatedFormElemnet.validation)
+            updatedOrderForm[inputIndentifier] = updatedFormElemnet;
+            console.log(updatedFormElemnet);
+            this.setState({
+                orderForm: updatedOrderForm
+            })
+        }
+
         componentWillUnmount () {
             this._isMounted = false;
         }
@@ -111,15 +169,17 @@
                 })
             }
 
-            let form = ( <form>
-                {formElemenetsArray.map(formElement => (
-                    <Input
-                        key={formElement.id} 
-                        elementType={formElement.config.elementType} 
-                        elementConfig={formElement.config.elementConfig}
-                        value={formElement.config.value} />
-                ))}
-                <Button btnType="Success" clicked={this.orderHandler}>Order</Button>
+            let form = ( 
+                <form onSubmit={this.orderHandler}>
+                    {formElemenetsArray.map(formElement => (
+                        <Input
+                            key={formElement.id} 
+                            elementType={formElement.config.elementType} 
+                            elementConfig={formElement.config.elementConfig}
+                            value={formElement.config.value} 
+                            changed={(event) => this.inputChangeHandler(event, formElement.id)}/>
+                    ))}
+                    <Button btnType="Success" clicked={this.orderHandler}>Order</Button>
             </form>
             );
             if(this.state.loading) {
