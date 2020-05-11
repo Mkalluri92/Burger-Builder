@@ -21,7 +21,8 @@
                     validation: {
                         required: true
                     },
-                    valid: false
+                    valid: false,
+                    touched: false
                 },
                 street: {
                     elementType: 'input',
@@ -33,7 +34,8 @@
                     validation: {
                         required: true
                     },
-                    valid: false
+                    valid: false,
+                    touched: false
                 },
                 zipCode: {
                     elementType: 'input',
@@ -43,11 +45,12 @@
                     },
                     value: '',
                     validation: {
-                        required: true
+                        required: true,
+                        minLengh: 5,
+                        maxLength: 5,
                     },
                     valid: false,
-                    minLengh: 5,
-                    maxLength: 5
+                    touched: false
 
                 },
                 country: {
@@ -60,7 +63,8 @@
                     validation: {
                         required: true
                     },
-                    valid: false
+                    valid: false,
+                    touched: false
                 },
                 email: {
                     elementType: 'input',
@@ -72,7 +76,8 @@
                     validation: {
                         required: true
                     },
-                    valid: false
+                    valid: false,
+                    touched: false
                 },
                 deliveryMethod: {
                     elementType: 'select',
@@ -93,21 +98,22 @@
         }
 
         checkValidity(value, rules) {
-            let _isValid= true;
+            let _isValid = true;
 
             if(rules.required) {
-                isValid = value.trim() !== '' && _isValid;
+                _isValid = value.trim() !== '' && _isValid;
             }
 
+
             if(rules.minLength) {
-                isValid = value.length >= rules.minLength && _isValid;
+                _isValid = value.length >= rules.minLength && _isValid;
             }
 
             if(rules.maxLength) {
-                isValid = value.length <= rules.minLength && _isValid;
+                _isValid = value.length <= rules.minLength && _isValid;
             }
 
-            return isValid
+            return _isValid
         }
 
         orderHandler = (event) => {
@@ -143,13 +149,14 @@
             const updatedOrderForm = {
                 ...this.state.orderForm
             }
-            const updatedFormElemnet = {
+            const updatedFormElement = {
                 ...updatedOrderForm[inputIndentifier]
             }
-            updatedFormElemnet.value = event.target.value
-            updatedFormElemnet.valid = this.checkValidity(updatedFormElemnet.value, updatedFormElemnet.validation)
-            updatedOrderForm[inputIndentifier] = updatedFormElemnet;
-            console.log(updatedFormElemnet);
+            updatedFormElement.value = event.target.value
+            updatedFormElement.valid = this.checkValidity(updatedFormElement.value, updatedFormElement.validation)
+            updatedFormElement.touched = true;
+            updatedOrderForm[inputIndentifier] = updatedFormElement;
+            console.log(updatedFormElement);
             this.setState({
                 orderForm: updatedOrderForm
             })
@@ -176,8 +183,11 @@
                             key={formElement.id} 
                             elementType={formElement.config.elementType} 
                             elementConfig={formElement.config.elementConfig}
-                            value={formElement.config.value} 
-                            changed={(event) => this.inputChangeHandler(event, formElement.id)}/>
+                            value={formElement.config.value}
+                            shouldValidate={formElement.config.validation}
+                            invalid= {!formElement.config.valid}
+                            touched= {formElement.config.touched}
+                            changed={(event) => this.inputChangeHandler(event, formElement.id)} />
                     ))}
                     <Button btnType="Success" clicked={this.orderHandler}>Order</Button>
             </form>
