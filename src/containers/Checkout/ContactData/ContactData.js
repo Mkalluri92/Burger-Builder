@@ -46,8 +46,8 @@
                     value: '',
                     validation: {
                         required: true,
-                        minLengh: 5,
-                        maxLength: 5,
+                        minLength: 5,
+                        maxLength: 5
                     },
                     valid: false,
                     touched: false
@@ -87,9 +87,12 @@
                             {value: 'cheapest', displayValue: 'Cheapest'}
                         ]
                     },
-                    value: ''
+                    value: 'fastest',
+                    validation: {},
+                    valid: true
                 }
             },
+            formIsValid: false,
             loading: false
         }
 
@@ -99,6 +102,10 @@
 
         checkValidity(value, rules) {
             let _isValid = true;
+
+            if(!rules) {
+                return true;
+            }
 
             if(rules.required) {
                 _isValid = value.trim() !== '' && _isValid;
@@ -110,7 +117,7 @@
             }
 
             if(rules.maxLength) {
-                _isValid = value.length <= rules.minLength && _isValid;
+                _isValid = value.length <= rules.maxLength && _isValid;
             }
 
             return _isValid
@@ -156,9 +163,17 @@
             updatedFormElement.valid = this.checkValidity(updatedFormElement.value, updatedFormElement.validation)
             updatedFormElement.touched = true;
             updatedOrderForm[inputIndentifier] = updatedFormElement;
-            console.log(updatedFormElement);
+             
+            let isFormValid = true;
+
+            for(let inputIndentifier in updatedOrderForm) {
+                isFormValid = updatedOrderForm[inputIndentifier].valid && isFormValid
+            }
+            //console.log(isFormValid);
+            
             this.setState({
-                orderForm: updatedOrderForm
+                orderForm: updatedOrderForm,
+                formIsValid: isFormValid
             })
         }
 
@@ -189,7 +204,7 @@
                             touched= {formElement.config.touched}
                             changed={(event) => this.inputChangeHandler(event, formElement.id)} />
                     ))}
-                    <Button btnType="Success" clicked={this.orderHandler}>Order</Button>
+                    <Button btnType="Success" clicked={this.orderHandler} disabled={!this.state.formIsValid}>Order</Button>
             </form>
             );
             if(this.state.loading) {
