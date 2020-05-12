@@ -11,7 +11,6 @@ class Orders extends Component {
         loading: true
     }
 
-    
     componentDidMount () {
         this._isMounted= true;
         axios.get('/orders.json')
