@@ -14,24 +14,22 @@ import * as actionTypes from '../../store/actions';
 class BurgerBuilder extends Component {
 
     state = {
-        totalPrice: 4,
-        purshasable: false,
         purchasing: false,
         loading: false,
         error: false
     }
 
-    updatePurchaseState (ingredients) {
+    // updatePurchaseState (ingredients) {
         
-        let sum = 0;
-        for(let key in ingredients) {
-            sum = sum + ingredients[key];
-        }
+    //     let sum = 0;
+    //     for(let key in ingredients) {
+    //         sum = sum + ingredients[key];
+    //     }
 
-        this.setState({
-            purshasable: sum>0
-        })
-    }
+    //     this.setState({
+    //         purshasable: sum > 0
+    //     })
+    // }
 
 
     componentDidMount() {
@@ -102,7 +100,7 @@ class BurgerBuilder extends Component {
         queryParams.push('price='+ this.state.totalPrice);
 
         const queryString = queryParams.join('&');
-        console.log(queryString);
+        //console.log(queryString);
 
         this.props.history.push({
             pathname: '/checkout',
@@ -130,7 +128,7 @@ class BurgerBuilder extends Component {
                     ingredientAdded = {this.props.onIngredientAdded}
                     ingredientRemoved = {this.props.onIngredientRemoved}
                     disabled = {disabledInfo}
-                    purchasable = {this.state.purshasable}
+                    purchasable = {this.props.purshasable}
                     price = {this.props.cost.toFixed(2)}
                     ordered = {this.purchaseHandler}/>
                 </Aux>
@@ -160,7 +158,8 @@ class BurgerBuilder extends Component {
 const mapStateToProps = state => {
     return {
         ings: state.ingredients,
-        cost: state.totalPrice
+        cost: state.totalPrice,
+        purshasable: state.purshasable
     }
 }
 
