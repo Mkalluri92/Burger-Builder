@@ -129,7 +129,7 @@ import { purchaseBurgerStart } from '../../../store/actions/order';
 
         orderHandler = (event) => {
             event.preventDefault();
-            dispatch(purchaseBurgerStart());
+            this.props.onPurchaseStart();
             const formData = {};
             for (let formElementIndentifier in this.state.orderForm) {
                 formData[formElementIndentifier] = this.state.orderForm[formElementIndentifier].value
@@ -211,15 +211,16 @@ import { purchaseBurgerStart } from '../../../store/actions/order';
 
 const mapStateToProps = state => {
     return {
-        ings: state.ingredients,
-        cost: state.totalPrice,
-        loading: state.loading,
+        ings: state.burger.ingredients,
+        cost: state.burger.totalPrice,
+        loading: state.order.loading,
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        onOrderBurger = (orderData) => dispatch(actions.purchaseBurger(orderData))
+        onOrderBurger : (orderData) => dispatch(actions.purchaseBurger(orderData)),
+        onPurchaseStart : () => dispatch(actions.purchaseBurgerStart())
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(ContactData,axios));
