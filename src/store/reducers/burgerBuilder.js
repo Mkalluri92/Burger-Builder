@@ -16,34 +16,42 @@ const INGREDIENT_PRICES = {
     bacon: 0.7
 }
 
+const addIngredient = (state, action) => {
+    const updateIngredient = {[action.ingredientName]: state.ingredients[action.ingredientName] + 1};
+    const updateIngredients = updateObject(state.ingredients, updateIngredient);
+    const updatedState = {
+        ingredients: updateIngredients,
+        totalPrice: state.totalPrice + INGREDIENT_PRICES[action.ingredientName],
+        purshasable: true
+    }
+    return updateObject(state, updatedState);
+}
+
+const removeIngredient = (state,action) => {
+    let sum = 0;
+    for(let key in state.ingredients) {
+        sum = sum + state.ingredients[key];
+    }
+
+    const updateIng = {[action.ingredientName]: state.ingredients[action.ingredientName] - 1};
+    const updateIngs = updateObject(state.ingredients, updateIng);
+    const updateState = {
+        ingredients: updateIngs,
+        totalPrice: state.totalPrice - INGREDIENT_PRICES[action.ingredientName],
+        purshasable: sum > 1
+    }
+    return  updateObject(state, updateState);
+}
+
 const reducer = (state = initialState, action) => {
     
     switch (action.type) {
         case actionTypes.ADD_INGREDIENT:
-            const updateIngredient = {[action.ingredientName]: state.ingredients[action.ingredientName] + 1};
-            const updateIngredients = updateObject(state.ingredients, updateIngredient);
-            const updatedState = {
-                ingredients: updateIngredients,
-                totalPrice: state.totalPrice + INGREDIENT_PRICES[action.ingredientName],
-                purshasable: true
-            }
-            return updateObject(state, updatedState);
+            return addIngredient(state, action);
 
         case actionTypes.REMOVE_INGREDIENT:
-            let sum = 0;
-            for(let key in state.ingredients) {
-                sum = sum + state.ingredients[key];
-            }
-
-            const updateIng = {[action.ingredientName]: state.ingredients[action.ingredientName] - 1};
-            const updateIngs = updateObject(state.ingredients, updateIng);
-            const updateState = {
-                ingredients: updateIngs,
-                totalPrice: state.totalPrice - INGREDIENT_PRICES[action.ingredientName],
-                purshasable: sum > 1
-            }
-            return  updateObject(state, updateState);
-
+            return removeIngredient(state, action);
+            
         case actionTypes.GET_INGREDIENT:
             return updateObject(state, {
                 ingredients: {
@@ -59,7 +67,7 @@ const reducer = (state = initialState, action) => {
         case actionTypes.GET_INGREDIENTS_FAILED:
             console.log(state);
             return updateObject(state, {error: true})
-            
+
         default:
             return state;
     }
