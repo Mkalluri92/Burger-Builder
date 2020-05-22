@@ -51,7 +51,8 @@ import { purchaseBurgerStart } from '../../../store/actions/order';
                     validation: {
                         required: true,
                         minLength: 5,
-                        maxLength: 5
+                        maxLength: 5,
+                        isNumeric: true
                     },
                     valid: false,
                     touched: false
@@ -78,7 +79,8 @@ import { purchaseBurgerStart } from '../../../store/actions/order';
                     },
                     value: '',
                     validation: {
-                        required: true
+                        required: true,
+                        isEmail: true
                     },
                     valid: false,
                     touched: false
@@ -122,6 +124,16 @@ import { purchaseBurgerStart } from '../../../store/actions/order';
 
             if(rules.maxLength) {
                 _isValid = value.length <= rules.maxLength && _isValid;
+            }
+
+            if (rules.isEmail) {
+                const pattern = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
+                _isValid = pattern.test(value) && _isValid
+            }
+    
+            if (rules.isNumeric) {
+                const pattern = /^\d+$/;
+                _isValid = pattern.test(value) && _isValid
             }
 
             return _isValid
