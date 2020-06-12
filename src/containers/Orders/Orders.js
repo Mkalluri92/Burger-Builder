@@ -12,22 +12,6 @@ class Orders extends Component {
 
     componentDidMount () {
         this.props.onFetchOrders();
-        // this._isMounted= true;
-        // axios.get('/orders.json')
-        //     .then(res => {
-        //         if (this._isMounted) {
-        //             const fetchedOrders = [];
-        //         for (let key in res.data) {
-        //             fetchedOrders.push({
-        //                 ...res.data[key],
-        //                 id: key
-        //             })
-        //         }
-        //         this.setState({loading: false, orders: fetchedOrders})
-        //         }
-        //     }).catch(err => {
-        //         this.setState({loading: false})
-        //     })
     }
 
     componentWillUnmount () {
@@ -40,7 +24,7 @@ class Orders extends Component {
                 <Order 
                     key={order.id}
                     ingredients={order.ingredients}
-                    price={order.price.toFixed(2)}/>
+                    price={order.price}/>
             ))
         };
         return (

@@ -148,7 +148,7 @@ import { purchaseBurgerStart } from '../../../store/actions/order';
             }
             const order = {
                 ingredients: this.props.ings,
-                price: this.props.cost,
+                price: this.props.cost.toFixed(2),
                 orderData: formData
             }
             this.props.onOrderBurger(order);

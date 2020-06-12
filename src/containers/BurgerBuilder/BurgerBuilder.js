@@ -17,64 +17,9 @@ class BurgerBuilder extends Component {
         purchasing: false,
     }
 
-    // updatePurchaseState (ingredients) {
-        
-    //     let sum = 0;
-    //     for(let key in ingredients) {
-    //         sum = sum + ingredients[key];
-    //     }
-
-    //     this.setState({
-    //         purshasable: sum > 0
-    //     })
-    // }
-
-
     componentDidMount() {
         this.props.getIngredients()
-        // axios.get('https://react-my-burger-22603.firebaseio.com/ingredients.json')
-        // .then(response => {
-        //     this.setState({ingredients: response.data})
-        // }).catch(error => {
-        //     console.log(error.message);
-        //     this.setState({error: true})
-        // })
     }
-
-    // addIngredientHandler = (type) => {
-    //     const oldCount = this.state.ingredients[type];
-    //     const updatedCount = oldCount+1;
-    //     const updatedIngredients = {
-    //         ...this.state.ingredients
-    //     }
-    //     updatedIngredients[type] = updatedCount;
-    //     const priceAddition = INGREDIENT_PRICES[type];
-    //     const oldPrice = this.state.totalPrice;
-    //     const newPrice = parseFloat(priceAddition) + parseFloat(oldPrice);
-    //     this.setState({
-    //         totalPrice: parseFloat(newPrice).toFixed(2),
-    //         ingredients: updatedIngredients
-    //     })
-    //     this.updatePurchaseState(updatedIngredients);
-    // }
-
-    // removeIngredientHandler = (type) => {
-    //     const oldCount = this.state.ingredients[type];
-    //     const updatedCount = oldCount - 1;
-    //     const updatedIngredients = {
-    //         ...this.state.ingredients
-    //     }
-    //     updatedIngredients[type] = updatedCount;
-    //     const priceDeduction = INGREDIENT_PRICES[type];
-    //     const oldPrice = this.state.totalPrice;
-    //     const newPrice = parseFloat(oldPrice) - parseFloat(priceDeduction);
-        
-    //     this.setState({
-    //         totalPrice: parseFloat(newPrice).toFixed(2),
-    //         ingredients: updatedIngredients
-    //     })
-    //     this.updatePurchaseState(updatedIngredients);
-    // }
 
     purchaseHandler = () => {
         this.setState({
