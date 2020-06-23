@@ -5,7 +5,6 @@ import Input from '../../components/UI/Input/Input';
 import Button from '../../components/UI/Button/Button';
 import classes from './Auth.module.css';
 import * as actions from '../../store/actions/index';
-import SPinner from '../../components/UI/Spinner/Spinner';
 import Spinner from '../../components/UI/Spinner/Spinner';
 
 
@@ -127,8 +126,18 @@ class Auth extends Component {
             if(this.props.loading) {
                 form = <Spinner />
             }
+
+            let errorMessage = null;
+
+            if(this.props.error) {
+                errorMessage= (
+                    <p>{this.props.error.message}</p>
+                )
+            }
+
         return (
             <div className={classes.Auth}>
+                {errorMessage}
                 <form onSubmit={this.submitHandler}>
                     {form}
                     <Button btnType='Success'>SUBMIT</Button>
@@ -149,7 +158,8 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
     return {
-        loading: state.auth.loading
+        loading: state.auth.loading,
+        error: state.auth.error
     }
 }
 
