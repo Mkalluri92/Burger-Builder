@@ -11,7 +11,7 @@ class Orders extends Component {
     _isMounted= false;
 
     componentDidMount () {
-        this.props.onFetchOrders(this.props.token);
+        this.props.authCheckStateForOrders();
     }
 
     componentWillUnmount () {
@@ -45,7 +45,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchOrders: (token) => dispatch(actions.fetchOrders(token))
+        authCheckStateForOrders: () => dispatch(actions.authCheckStateForOrders())
     }
 }
 

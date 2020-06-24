@@ -8,7 +8,7 @@ export {
   purchaseBurger,
   purchaseBurgerStart,
   purchaseInit,
-  fetchOrders
+  authCheckStateForOrders
 } from './order';
 
 export {

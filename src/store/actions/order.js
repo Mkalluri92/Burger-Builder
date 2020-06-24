@@ -79,3 +79,20 @@ export const fetchOrders = (token)  => {
             })
     }
 }
+
+export const authCheckStateForOrders = () => {
+    return dispatch => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            dispatch(fetchOrdersFail('Not Authorised'));
+        } else {
+            const expirationDate = new Date(localStorage.getItem('expirationDate'));
+            if (expirationDate <= new Date()) {
+                dispatch(fetchOrdersFail('Login again'));
+            }else {
+                const userId = localStorage.getItem('userId');
+                dispatch(fetchOrders(localStorage.getItem('token')))
+            }
+        }
+    }
+}
