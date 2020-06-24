@@ -37,6 +37,10 @@ class BurgerBuilder extends Component {
         this.props.onInitPurchase();
         this.props.history.push('/checkout');
     }
+
+    continueToSignup = () => {
+        this.props.history.push('/auth');
+    }
       
 
     render () {
@@ -53,14 +57,15 @@ class BurgerBuilder extends Component {
         if (this.props.ings) {
             burger = (
                 <Aux>
-                     <Burger ingredients={this.props.ings}/>
+                    <Burger ingredients={this.props.ings}/>
                     <BuildControls 
                     ingredientAdded = {this.props.onIngredientAdded}
                     ingredientRemoved = {this.props.onIngredientRemoved}
                     disabled = {disabledInfo}
                     purchasable = {this.props.purshasable}
                     price = {this.props.cost.toFixed(2)}
-                    ordered = {this.purchaseHandler}/>
+                    ordered = {this.props.isAuthenticated? this.purchaseHandler: this.continueToSignup}
+                    isAuthenticated = {this.props.isAuthenticated}/>
                 </Aux>
             )
             orderSummary = <OrderSummary 
@@ -69,10 +74,6 @@ class BurgerBuilder extends Component {
                 purchaseCotinued = {this.purchaseContinueHandler}
                 price = {this.props.cost.toFixed(2)} />
         }
-        
-        // if (this.state.loading) {
-        //     orderSummary = <Spinner />;
-        // }
 
         return (
             <Aux>
@@ -90,7 +91,8 @@ const mapStateToProps = state => {
         ings: state.burger.ingredients,
         cost: state.burger.totalPrice,
         purshasable: state.burger.purshasable,
-        error: state.burger.error
+        error: state.burger.error,
+        isAuthenticated: state.auth.token !== null
     }
 }
 
