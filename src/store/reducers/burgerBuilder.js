@@ -6,7 +6,8 @@ const initialState = {
     totalPrice: 4,
     purshasable: false,
     loading: false,
-    error: false
+    error: false,
+    buildingBurger: false
 };
 
 const INGREDIENT_PRICES = {
@@ -22,7 +23,8 @@ const addIngredient = (state, action) => {
     const updatedState = {
         ingredients: updateIngredients,
         totalPrice: state.totalPrice + INGREDIENT_PRICES[action.ingredientName],
-        purshasable: true
+        purshasable: true,
+        buildingBurger: true
     }
     return updateObject(state, updatedState);
 }
@@ -38,6 +40,7 @@ const removeIngredient = (state,action) => {
     const updateState = {
         ingredients: updateIngs,
         totalPrice: state.totalPrice - INGREDIENT_PRICES[action.ingredientName],
+        buildingBurger: true,
         purshasable: sum > 1
     }
     return  updateObject(state, updateState);
@@ -61,7 +64,8 @@ const reducer = (state = initialState, action) => {
                     meat: action.ingredients.meat
                 },
                 error: false,
-                totalPrice: 4
+                totalPrice: 4,
+                buildingBurger: false
             })
                 
         case actionTypes.GET_INGREDIENTS_FAILED:
