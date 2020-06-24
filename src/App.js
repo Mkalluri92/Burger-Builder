@@ -5,6 +5,7 @@ import Checkout from './containers/Checkout/Checkout';
 import { BrowserRouter, Route } from 'react-router-dom';
 import Orders from './containers/Orders/Orders';
 import Auth from './containers/Auth/Auth';
+import Logout from './containers/Auth/Logout/Logout';
 
 class App extends Component {
   
@@ -17,6 +18,7 @@ class App extends Component {
             <Route path="/Checkout" component={Checkout} />
             <Route path="/Orders" component={Orders} />
             <Route path="/Auth" component={Auth} />
+            <Route path="/Logout" component={Logout} />
           </Layout>
         </BrowserRouter> 
       </div>
