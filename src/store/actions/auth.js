@@ -11,7 +11,7 @@ export const authSuccess = (token, userId) => {
     return {
         type: actionTypes.AUTH_SUCCESS,
         idToken: token,
-        userID: userId
+        userId: userId
     };
 }
 
@@ -26,6 +26,7 @@ export const logout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('expirationDate');
     localStorage.removeItem('userId');
+    localStorage.removeItem('path');
     return {
         type: actionTypes.AUTH_LOGOUT
     }

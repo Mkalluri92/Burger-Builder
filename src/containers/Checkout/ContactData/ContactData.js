@@ -142,6 +142,7 @@ import { purchaseBurgerStart } from '../../../store/actions/order';
         orderHandler = (event) => {
             event.preventDefault();
             this.props.onPurchaseStart();
+            console.log(this.props.userId);
             const formData = {};
             for (let formElementIndentifier in this.state.orderForm) {
                 formData[formElementIndentifier] = this.state.orderForm[formElementIndentifier].value
@@ -149,7 +150,8 @@ import { purchaseBurgerStart } from '../../../store/actions/order';
             const order = {
                 ingredients: this.props.ings,
                 price: this.props.cost.toFixed(2),
-                orderData: formData
+                orderData: formData,
+                userId: this.props.userId
             }
             this.props.onOrderBurger(order, this.props.token);
         }
@@ -226,7 +228,8 @@ const mapStateToProps = state => {
         ings: state.burger.ingredients,
         cost: state.burger.totalPrice,
         loading: state.order.loading,
-        token: state.auth.token
+        token: state.auth.token,
+        userId: state.auth.userId
     }
 }
 

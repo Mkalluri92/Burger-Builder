@@ -9,6 +9,7 @@ import Logout from './containers/Auth/Logout/Logout';
 import { connect } from 'react-redux';
 import * as actions from './store/actions/index';
 
+
 class App extends Component {
 
   componentDidMount () {
@@ -16,7 +17,7 @@ class App extends Component {
   }
   
   render () {
-
+    //console.log(this.props.isAuthenticated);
     let routes = (
       <Switch>
         <Route path="/Auth" component={Auth} />
@@ -28,9 +29,11 @@ class App extends Component {
     if (this.props.isAuthenticated) {
       routes = (
         <Switch>
-          <Route path="/Checkout" component={Checkout} />
+          <Route path="/Checkout"  component={Checkout} />
           <Route path="/Orders" component={Orders} />
           <Route path="/Logout" component={Logout} />
+          <Route path="/" exact component={BurgerBuilder} />
+          <Redirect to="/" />
         </Switch>
       )
     }

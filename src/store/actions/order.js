@@ -60,11 +60,11 @@ export const fetchOrdersStart = () => {
     }
 }
 
-export const fetchOrders = (token)  => {
-    console.log(token);
+export const fetchOrders = (token, userId)  => {
     return dispatch => {
-        fetchOrdersStart();
-        axios.get('/orders.json?auth=' + token)
+        dispatch(fetchOrdersStart());
+        const queryParams = '?auth=' + token + '&orderBy="userId"&equalTo="' + userId + '"';
+        axios.get('/orders.json' + queryParams)
             .then(res => {
                     const fetchedOrders = [];
                 for (let key in res.data) {
@@ -90,8 +90,7 @@ export const authCheckStateForOrders = () => {
             if (expirationDate <= new Date()) {
                 dispatch(fetchOrdersFail('Login again'));
             }else {
-                const userId = localStorage.getItem('userId');
-                dispatch(fetchOrders(localStorage.getItem('token')))
+                dispatch(fetchOrders(localStorage.getItem('token'), localStorage.getItem('userId')))
             }
         }
     }
